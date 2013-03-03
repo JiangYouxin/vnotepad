@@ -57,8 +57,7 @@ public class SyncTask {
         byte []base = FileUtility.readFile(context, baseFile);
         byte []local = FileUtility.readFile(context, localFile);
         byte []server = FileUtility.readFile(context, serverFile);
-        FileUtility.writeFile(context, baseFile, server);
-
+        
         byte []result = xdl_merge(
                 base,
                 local,
@@ -66,15 +65,17 @@ public class SyncTask {
                 0,  // flags
                 0,  // marker_size
                 3,  // level
-                2,  // favor
+                3,  // favor
                 0,  // style
                 "orig",
                 "local",
                 "server");
         
         FileUtility.writeFile(context, localFile, result);
-
-        return SYNC_FAILED_CONFLICT;
+        int ret = doUpload(SYNC_SUCCESS_MERGE);
+        if (ret != SYNC_SUCCESS_MERGE)
+            FileUtility.writeFile(context, baseFile, server);
+        return ret;
     }
     private boolean isDifferent(String file1, String file2) {
         byte []buffer1 = FileUtility.readFile(context, file1);
