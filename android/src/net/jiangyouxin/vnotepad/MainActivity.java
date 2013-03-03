@@ -35,6 +35,10 @@ public class MainActivity extends Activity {
         super.onPause();
     }
 
+    public void syncFile(View v) {
+        edit.setText("Test Sync!!");
+    }
+
     private boolean loadFile() {
         String res = null;
         FileInputStream fin = null;
