@@ -17,6 +17,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        edit = (EditText)findViewById(R.id.edit_text);
         loadFile();
     }
 
@@ -27,8 +28,8 @@ public class MainActivity extends Activity {
     }
 
     private boolean loadFile() {
-        String res;
-        FileInputStream fin;
+        String res = null;
+        FileInputStream fin = null;
         try {
             fin = openFileInput(FILENAME);
             int length = fin.available();
@@ -37,8 +38,10 @@ public class MainActivity extends Activity {
             res = new String(buffer, "utf8");
         } catch (Exception e) {
         } finally {
-            if (fin != null)
+            if (fin != null) try {
                 fin.close();
+            } catch (IOException e) {
+            }
         } 
         if (res != null) {
             edit.setText(res);
@@ -49,15 +52,17 @@ public class MainActivity extends Activity {
     }
 
     private boolean saveFile() {
-        String res = edit.getText();
-        FileOutputStream fout;
+        String res = edit.getText().toString();
+        FileOutputStream fout = null;
         try {
             fout = openFileOutput(FILENAME, MODE_PRIVATE);
             fout.write(res.getBytes("utf8"));
         } catch (Exception e) {
         } finally {
-            if (fout != null)
+            if (fout != null) try {
                 fout.close();
+            } catch (IOException e) {
+            }
         }
         return true;
     }
