@@ -49,10 +49,14 @@ public class MainActivity extends Activity {
                     Thread.sleep(5000);
                 } catch (Exception e) {
                 }
+                final int sync_result = SyncHelper.doSync();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         dialog.dismiss();
+                        Toast.makeText(getApplicationContext(),
+                            getString(sync_result),
+                            Toast.LENGTH_SHORT).show();
                         loadFile();
                     }
                 });
