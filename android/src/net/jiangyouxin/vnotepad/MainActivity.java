@@ -18,13 +18,18 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         edit = (EditText)findViewById(R.id.edit_text);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         loadFile();
     }
 
     @Override
-    public void onDestroy() {
+    public void onPause() {
         saveFile();
-        super.onDestroy();
+        super.onPause();
     }
 
     private boolean loadFile() {
