@@ -58,8 +58,17 @@ public class SyncTask {
         return SYNC_FAILED_CONFLICT;
     }
     private boolean isDifferent(String file1, String file2) {
+        byte []buffer1 = FileUtility.readFile(context, file1);
+        byte []buffer2 = FileUtility.readFile(context, file2);
+        if (buffer1.length != buffer2.length)
+            return true;
+        for (int i = 0; i < buffer1.length; i++)
+            if (buffer1[i] != buffer2[i])
+                return true;
         return false;
     }
     private void copyFile(String file1, String file2) {
+        byte []buffer = FileUtility.readFile(context, file1);
+        FileUtility.writeFile(context, file2, buffer);
     }
 }
