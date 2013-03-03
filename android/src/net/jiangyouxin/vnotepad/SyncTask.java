@@ -102,7 +102,8 @@ public class SyncTask {
             String ancestor,
             String file1,
             String file2);
+
     static {
-        System.loadLibrary("libxdiff");
+        System.loadLibrary("xdiff");
     }
 }
