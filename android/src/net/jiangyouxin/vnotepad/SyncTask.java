@@ -54,7 +54,26 @@ public class SyncTask {
         return retIfSuccess;
     }
     private int doMerge() {
-        copyFile(serverFile, baseFile);
+        byte []base = FileUtility.readFile(context, baseFile);
+        byte []local = FileUtility.readFile(context, localFile);
+        byte []server = FileUtility.readFile(context, serverFile);
+        FileUtility.writeFile(context, baseFile, server);
+
+        byte []result = xdl_merge(
+                base,
+                local,
+                server,
+                0,  // flags
+                0,  // marker_size
+                1,  // level
+                0,  // favor
+                1,  // style
+                "orig",
+                "local",
+                "server");
+        
+        FileUtility.writeFile(context, localFile, result);
+
         return SYNC_FAILED_CONFLICT;
     }
     private boolean isDifferent(String file1, String file2) {
@@ -83,4 +102,7 @@ public class SyncTask {
             String ancestor,
             String file1,
             String file2);
+    static {
+        System.loadLibrary("libxdiff");
+    }
 }

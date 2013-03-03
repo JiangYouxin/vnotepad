@@ -1,9 +1,9 @@
 #include <jni.h>
-
+#include <stdlib.h>
 #include "xdiff.h"
 
 void fill_mmfile(JNIEnv env, mmfile_t *native_mf, jbyteArray mf) {
-    native_mf->ptr = (char *)env->GetByteArrayElements(mf, 0);
+    native_mf->ptr = (char *)env->GetByteArrayElements(mf, 0, 0);
     native_mf->size = env->GetArrayLength(mf, 0);
 }
 
@@ -25,7 +25,7 @@ JNIEXPORT jbyteArray JNICALL Java_net_jiangyouxin_vnotepad_SyncTask_xdl_1merge
     mmfile_t native_orig;
     mmfile_t native_mf1;
     mmfile_t native_mf2;
-    mmbuffer_t native_result = { 0, 0 };
+    mmbuffer_t result = { 0, 0 };
     xmparam_t xmp;
     char *native_ancestor;
     char *native_file1;
@@ -55,8 +55,8 @@ JNIEXPORT jbyteArray JNICALL Java_net_jiangyouxin_vnotepad_SyncTask_xdl_1merge
     (*env)->ReleaseStringUTFChars(env, file1, xmp.file1);
     (*env)->ReleaseStringUTFChars(env, file2, xmp.file2);
 
-    jbyteArray ret = (*env)->NewByteArray(result.size);
-    (*env)->SetByteArrayRegion(ret, 0, result.size, result.ptr);
+    jbyteArray ret = (*env)->NewByteArray(env, result.size);
+    (*env)->SetByteArrayRegion(env, ret, 0, result.size, result.ptr);
     free(result.ptr);
     return ret;
 }
