@@ -6,7 +6,7 @@ if ($ret == true) {
 		$content = $kv->get("vnotepad");
 		print $content;
 	} else {
-		$content = $_POST("vnotepad");
+		$content = $_POST["vnotepad"];
 		$kv->set("vnotepad", $content);
 		print "SUCESSS.";
 	}
