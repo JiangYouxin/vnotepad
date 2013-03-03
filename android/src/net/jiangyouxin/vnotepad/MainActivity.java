@@ -36,7 +36,28 @@ public class MainActivity extends Activity {
     }
 
     public void syncFile(View v) {
-        edit.setText("Test Sync!!");
+        final ProgressDialog dialog = ProgressDialog.show(
+                this,
+                getString(R.string.sync_progress_title),
+                getString(R.string.sync_progress_message),
+                true);
+        saveFile();
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(5000);
+                } catch (Exception e) {
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                        loadFile();
+                    }
+                });
+            }
+        }.start();
     }
 
     private boolean loadFile() {

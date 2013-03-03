@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">VNotepad</string>
     <string name="sync">Sync</string>
+    <string name="sync_progress_title">Sync with cloud</string>
+    <string name="sync_progress_message">Please wait...</string>
 </resources>
