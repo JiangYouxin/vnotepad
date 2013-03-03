@@ -65,9 +65,9 @@ public class SyncTask {
                 server,
                 0,  // flags
                 0,  // marker_size
-                1,  // level
-                0,  // favor
-                1,  // style
+                3,  // level
+                2,  // favor
+                0,  // style
                 "orig",
                 "local",
                 "server");

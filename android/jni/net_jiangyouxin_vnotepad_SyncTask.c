@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include "xdiff.h"
 
-void fill_mmfile(JNIEnv env, mmfile_t *native_mf, jbyteArray mf) {
-    native_mf->ptr = (char *)env->GetByteArrayElements(mf, 0, 0);
-    native_mf->size = env->GetArrayLength(mf, 0);
+void fill_mmfile(JNIEnv *env, mmfile_t *native_mf, jbyteArray mf) {
+    native_mf->ptr = (char *)(*env)->GetByteArrayElements(env, mf, 0);
+    native_mf->size = (*env)->GetArrayLength(env, mf);
 }
 
 JNIEXPORT jbyteArray JNICALL Java_net_jiangyouxin_vnotepad_SyncTask_xdl_1merge
@@ -30,10 +30,10 @@ JNIEXPORT jbyteArray JNICALL Java_net_jiangyouxin_vnotepad_SyncTask_xdl_1merge
     char *native_ancestor;
     char *native_file1;
     char *native_file2;
-    
-    fill_mmfile(*env, &native_orig, orig);
-    fill_mmfile(*env, &native_mf1, mf1);
-    fill_mmfile(*env, &native_mf2, mf2);
+
+    fill_mmfile(env, &native_orig, orig);
+    fill_mmfile(env, &native_mf1, mf1);
+    fill_mmfile(env, &native_mf2, mf2);
 
     xmp.xpp.flags = flags;
     xmp.marker_size = marker_size;
