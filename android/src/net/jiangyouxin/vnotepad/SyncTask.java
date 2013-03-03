@@ -1,5 +1,7 @@
 package net.jiangyouxin.vnotepad;
 
+import android.content.*;
+
 public class SyncTask {
     // trick: use id in strings.xml for result
     public static int SYNC_SUCCESS_NO_CHANGE = R.string.sync_success_no_change;
@@ -15,16 +17,18 @@ public class SyncTask {
     private String localFile;
     private String serverFile;
     private SyncClient client;
+    private Context context;
 
-    public SyncTask(String baseFile, String localFile, String serverFile) {
+    public SyncTask(String baseFile, String localFile, String serverFile, Context context) {
         this.baseFile = baseFile;
         this.localFile = localFile;
         this.serverFile = serverFile;
-        this.client = new SimpleSyncClient();     
+        this.client = new SimpleSyncClient();
+        this.context = context;
     }
 
     public int doSync() {
-        if (!client.download(serverFile))
+        if (!client.download(context, serverFile))
             return SYNC_FAILED_NETWORK;
         if (isDifferent(serverFile, baseFile)) {
             if (isDifferent(localFile, baseFile)) {
@@ -44,7 +48,7 @@ public class SyncTask {
         return SYNC_SUCCESS_DOWNLOAD;
     }
     private int doUpload(int retIfSuccess) {
-        if (!client.upload(localFile))
+        if (!client.upload(context, localFile))
             return SYNC_FAILED_NETWORK;
         copyFile(localFile, baseFile);
         return retIfSuccess;

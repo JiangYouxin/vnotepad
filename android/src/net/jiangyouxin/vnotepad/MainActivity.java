@@ -49,7 +49,8 @@ public class MainActivity extends Activity {
                     Thread.sleep(5000);
                 } catch (Exception e) {
                 }
-                final int sync_result = new SyncTask(FILENAME_ORIG, FILENAME, FILENAME_SERVER).doSync();
+                SyncTask task = new SyncTask(FILENAME_ORIG, FILENAME, FILENAME_SERVER, getApplicationContext());
+                final int sync_result = task.doSync();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

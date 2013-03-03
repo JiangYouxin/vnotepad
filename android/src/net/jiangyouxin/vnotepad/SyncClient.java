@@ -1,6 +1,8 @@
 package net.jiangyouxin.vnotepad;
 
+import android.content.*;
+
 public interface SyncClient {
-    boolean upload(String filename);
-    boolean download(String filename); 
+    boolean upload(Context context, String filename);
+    boolean download(Context context, String filename); 
 }
