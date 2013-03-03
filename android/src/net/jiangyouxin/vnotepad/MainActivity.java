@@ -4,6 +4,7 @@ import java.io.*;
 
 import android.app.*;
 import android.os.*;
+import android.view.*;
 import android.widget.*;
 
 public class MainActivity extends Activity {
@@ -16,7 +17,9 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar);
         edit = (EditText)findViewById(R.id.edit_text);
     }
 
