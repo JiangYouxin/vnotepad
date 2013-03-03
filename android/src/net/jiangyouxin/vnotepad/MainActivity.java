@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
                     Thread.sleep(5000);
                 } catch (Exception e) {
                 }
-                final int sync_result = SyncHelper.doSync();
+                final int sync_result = new SyncTask(FILENAME_ORIG, FILENAME, FILENAME_SERVER).doSync();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

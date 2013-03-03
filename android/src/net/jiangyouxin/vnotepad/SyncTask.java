@@ -1,0 +1,61 @@
+package net.jiangyouxin.vnotepad;
+
+public class SyncTask {
+    // trick: use id in strings.xml for result
+    public static int SYNC_SUCCESS_NO_CHANGE = R.string.sync_success_no_change;
+
+    public static int SYNC_SUCCESS_DOWNLOAD = R.string.sync_success_download;
+    public static int SYNC_SUCCESS_UPLOAD = R.string.sync_success_upload;
+    public static int SYNC_SUCCESS_MERGE = R.string.sync_success_merge;
+
+    public static int SYNC_FAILED_NETWORK = R.string.sync_failed_network;
+    public static int SYNC_FAILED_CONFLICT = R.string.sync_failed_conflict;
+
+    private String baseFile;
+    private String localFile;
+    private String serverFile;
+    private SyncClient client;
+
+    public SyncTask(String baseFile, String localFile, String serverFile) {
+        this.baseFile = baseFile;
+        this.localFile = localFile;
+        this.serverFile = serverFile;
+        this.client = new SimpleSyncClient();     
+    }
+
+    public int doSync() {
+        if (!client.download(serverFile))
+            return SYNC_FAILED_NETWORK;
+        if (isDifferent(serverFile, baseFile)) {
+            if (isDifferent(localFile, baseFile)) {
+                return doMerge();
+            } else {
+                return doDownload();
+            }
+        } else if(isDifferent(localFile, baseFile)) {
+            return doUpload(SYNC_SUCCESS_UPLOAD);
+        } else {
+            return SYNC_SUCCESS_NO_CHANGE;
+        }
+    }
+    private int doDownload() {
+        copyFile(serverFile, localFile);
+        copyFile(serverFile, baseFile);
+        return SYNC_SUCCESS_DOWNLOAD;
+    }
+    private int doUpload(int retIfSuccess) {
+        if (!client.upload(localFile))
+            return SYNC_FAILED_NETWORK;
+        copyFile(localFile, baseFile);
+        return retIfSuccess;
+    }
+    private int doMerge() {
+        copyFile(serverFile, baseFile);
+        return SYNC_FAILED_CONFLICT;
+    }
+    private boolean isDifferent(String file1, String file2) {
+        return false;
+    }
+    private void copyFile(String file1, String file2) {
+    }
+}

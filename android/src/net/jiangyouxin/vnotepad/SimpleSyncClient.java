@@ -2,9 +2,11 @@ package net.jiangyouxin.vnotepad;
 
 public class SimpleSyncClient implements SyncClient {
     @Override
-    public void uploadFile(String filename) {
+    public boolean upload(String filename) {
+        return false;
     }
     @Override
-    public void downloadFile(String filename) {
+    public boolean download(String filename) {
+        return false;
     }
 }
