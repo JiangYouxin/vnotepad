@@ -71,4 +71,16 @@ public class SyncTask {
         byte []buffer = FileUtility.readFile(context, file1);
         FileUtility.writeFile(context, file2, buffer);
     }
+    private native byte[] xdl_merge(
+            byte[] orig,
+            byte[] mf1,
+            byte[] mf2,
+            int flags,
+            int marker_size,
+            int level,
+            int favor,
+            int style,
+            String ancestor,
+            String file1,
+            String file2);
 }
