@@ -3,3 +3,5 @@ gen/
 obj/
 libs/
 *.properties
+build.xml
+proguard-project.txt
