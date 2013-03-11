@@ -21,11 +21,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar);
         edit = (EditText)findViewById(R.id.edit_text);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         loadFile();
     }
 
